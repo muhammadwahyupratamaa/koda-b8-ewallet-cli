@@ -17,7 +17,7 @@ func MainMenu(authService *service.AuthService) {
 		case "1":
 			ShowRegisterMenu(authService)
 		case "2":
-			fmt.Println("Login")
+			ShowLoginMenu(authService)
 		case "0":
 			fmt.Println("Thank you...")
 			return
