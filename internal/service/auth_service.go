@@ -4,6 +4,7 @@ import (
 	"errors"
 	"koda-b8-ewallet-cli/internal/model"
 	"koda-b8-ewallet-cli/internal/repository"
+	"koda-b8-ewallet-cli/internal/utils"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -36,14 +37,34 @@ func (s *AuthService) Register(
 	if err != nil && err != pgx.ErrNoRows {
 	return err
 	}
+	hashedPassword := utils.HashPassword(password)
 	user = &model.User{
 		FullName: fullName,
 		UserName: username,
 		Age: age,
 		Address: address,
 		Email: email,
-		Password: password,
+		Password: hashedPassword,
 	}
 
 	return s.userRepo.CreateUser(user)
+}
+
+func (s *AuthService) Login(
+	username string,
+	password string,
+) error {
+
+	user, err := s.userRepo.GetUserByUsername(username)
+	if err != nil {
+		return errors.New("username or password is incorrect")
+	}
+
+	hashedPassword := utils.HashPassword(password)
+
+	if user.Password != hashedPassword {
+		return errors.New("username or password is incorrect")
+	}
+
+	return nil
 }
