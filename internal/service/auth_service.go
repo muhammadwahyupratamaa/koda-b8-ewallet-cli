@@ -5,17 +5,23 @@ import (
 	"koda-b8-ewallet-cli/internal/model"
 	"koda-b8-ewallet-cli/internal/repository"
 	"koda-b8-ewallet-cli/internal/utils"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 )
 
 type AuthService struct {
-	userRepo *repository.UserRepository
+	userRepo    *repository.UserRepository
+	sessionRepo *repository.SessionRepository
 }
 
-func NewAuthService(userRepo *repository.UserRepository) *AuthService {
+func NewAuthService(
+	userRepo *repository.UserRepository,
+	sessionRepo *repository.SessionRepository,
+) *AuthService {
 	return &AuthService{
-		userRepo: userRepo,
+		userRepo:    userRepo,
+		sessionRepo: sessionRepo,
 	}
 }
 
@@ -63,8 +69,18 @@ func (s *AuthService) Login(
 	hashedPassword := utils.HashPassword(password)
 
 	if user.Password != hashedPassword {
-		return errors.New("username or password is incorrect")
+	return errors.New("username or password is incorrect")
 	}
 
+	session := &model.UserSession{
+	UserID:       user.ID,
+	SessionToken: utils.GenerateSessionToken(),
+	ExpiredAt:    time.Now().Add(24 * time.Hour),
+	}
+
+	err = s.sessionRepo.CreateSession(session)
+	if err != nil {
+	return err
+	}
 	return nil
 }
