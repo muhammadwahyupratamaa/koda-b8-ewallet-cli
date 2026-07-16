@@ -10,21 +10,14 @@ import (
 
 func main() {
 	db := database.Connect()
-	defer db.Close()
+defer db.Close()
 
-	walletRepo := repository.NewWalletRepository(db)
+walletRepo := repository.NewWalletRepository(db)
 
-	wallet, err := walletRepo.GetWalletByUserID(1)
-	if err != nil {
-		log.Fatal(err)
-	}
+err := walletRepo.UpdateBalance(999, 750000)
+if err != nil {
+	log.Fatal(err)
+}
 
-	fmt.Println("===== WALLET =====")
-	fmt.Println("ID            :", wallet.ID)
-	fmt.Println("User ID       :", wallet.UserID)
-	fmt.Println("Wallet Number :", wallet.WalletNumber)
-	fmt.Println("Balance       :", wallet.Balance)
-	fmt.Println("Status        :", wallet.Status)
-	fmt.Println("Created At    :", wallet.CreatedAt)
-	fmt.Println("Updated At    :", wallet.UpdatedAt)
+fmt.Println("Update balance berhasil!")
 }
