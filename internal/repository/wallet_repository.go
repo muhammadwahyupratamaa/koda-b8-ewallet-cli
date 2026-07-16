@@ -5,14 +5,14 @@ import (
 	"errors"
 	"koda-b8-ewallet-cli/internal/model"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5"
 )
 
 type WalletRepository struct{
-	db *pgxpool.Pool
+	db *pgx.Conn
 }
 
-func NewWalletRepository(db *pgxpool.Pool) *WalletRepository{
+func NewWalletRepository(db *pgx.Conn) *WalletRepository{
 return  &WalletRepository{
 	db: db,
 }

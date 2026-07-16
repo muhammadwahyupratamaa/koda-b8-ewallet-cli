@@ -1,8 +1,12 @@
 package menu
 
-import "fmt"
+import (
+	"fmt"
+	"koda-b8-ewallet-cli/internal/service"
+	"strconv"
+)
 
-func ShowRegisterMenu() {
+func ShowRegisterMenu(authService *service.AuthService) {
 
 	fmt.Println()
 	fmt.Println("==============================")
@@ -16,7 +20,13 @@ func ShowRegisterMenu() {
 	username := Input()
 
 	fmt.Print("Age       : ")
-	age := Input()
+	ageInput := Input()
+
+	age, err := strconv.Atoi(ageInput)
+	if err != nil {
+	fmt.Println("Age must be a number")
+	return
+	}
 
 	fmt.Print("Address   : ")
 	address := Input()
@@ -36,4 +46,20 @@ func ShowRegisterMenu() {
 	fmt.Println("Email     :", email)
 	fmt.Println("Password  :", password)
 	fmt.Println("=========================")
+
+	err = authService.Register(
+	fullName,
+	username,
+	age,
+	address,
+	email,
+	password,
+	)	
+
+	if err != nil {
+	fmt.Println("Register Failed:", err)
+	return
+	}
+
+	fmt.Println("Register Success")
 }

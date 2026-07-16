@@ -1,8 +1,11 @@
 package menu
 
-import "fmt"
+import (
+	"fmt"
+	"koda-b8-ewallet-cli/internal/service"
+)
 
-func MainMenu() {
+func MainMenu(authService *service.AuthService) {
 
 	for {
 
@@ -12,7 +15,7 @@ func MainMenu() {
 
 		switch choice {
 		case "1":
-			ShowRegisterMenu()
+			ShowRegisterMenu(authService)
 		case "2":
 			fmt.Println("Login")
 		case "0":

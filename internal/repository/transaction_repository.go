@@ -3,15 +3,14 @@ package repository
 import (
 	"context"
 	"koda-b8-ewallet-cli/internal/model"
-
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5"
 )
 
 type TransactionRepository struct {
-	db *pgxpool.Pool
+	db *pgx.Conn
 }
 
-func NewTransactionRepository(db *pgxpool.Pool) *TransactionRepository {
+func NewTransactionRepository(db *pgx.Conn) *TransactionRepository {
 	return &TransactionRepository{
 		db: db,
 	}

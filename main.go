@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"koda-b8-ewallet-cli/internal/database"
 	"koda-b8-ewallet-cli/internal/menu"
 	"koda-b8-ewallet-cli/internal/repository"
@@ -8,9 +9,11 @@ import (
 )
 
 func main() {
-
+	
 	db := database.Connect()
-	defer db.Close()
+	defer db.Close(context.Background())
+	userRepo := repository.NewUserRepository(db)
+	authService := service.NewAuthService(userRepo)
 
 	walletRepo := repository.NewWalletRepository(db)
 	transactionRepo := repository.NewTransactionRepository(db)
@@ -21,6 +24,6 @@ func main() {
 		transactionRepo,
 	)
 
-	menu.MainMenu()
+	menu.MainMenu(authService)
 
 }

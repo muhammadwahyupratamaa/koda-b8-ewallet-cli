@@ -1,0 +1,55 @@
+package repository
+
+import (
+	"context"
+
+	"koda-b8-ewallet-cli/internal/model"
+
+	"github.com/jackc/pgx/v5"
+)
+
+type UserRepository struct {
+	db *pgx.Conn
+}
+
+func NewUserRepository(db *pgx.Conn) *UserRepository {
+	return &UserRepository{
+		db: db,
+	}
+}
+
+func (r *UserRepository) CreateUser(user *model.User) error {
+	_, err := r.db.Exec(
+		context.Background(),
+		`
+		INSERT INTO users (
+			full_name,
+			user_name,
+			age,
+			address,
+			email,
+			password
+		)
+		VALUES (
+			$1,
+			$2,
+			$3,
+			$4,
+			$5,
+			$6
+		)
+		`,
+		user.FullName,
+		user.UserName,
+		user.Age,
+		user.Address,
+		user.Email,
+		user.Password,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
