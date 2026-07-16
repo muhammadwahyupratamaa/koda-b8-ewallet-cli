@@ -6,7 +6,10 @@ import (
 	"koda-b8-ewallet-cli/internal/service"
 )
 
-func ShowLoginMenu(authService *service.AuthService) {
+func ShowLoginMenu(
+	authService *service.AuthService,
+	walletService *service.WalletService,
+) {
 
 	fmt.Println()
 	fmt.Println("==============================")
@@ -31,5 +34,5 @@ func ShowLoginMenu(authService *service.AuthService) {
 
 	fmt.Println("Login Success")
 
-	Dashboard(user.UserName)
+	Dashboard(user, walletService)
 }

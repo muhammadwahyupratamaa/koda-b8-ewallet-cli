@@ -18,9 +18,10 @@ func main() {
 	userRepo,
 	sessionRepo,
 	)
-
 	walletRepo := repository.NewWalletRepository(db)
 	transactionRepo := repository.NewTransactionRepository(db)
+	walletService := service.NewWalletService(walletRepo)
+
 
 	_ = service.NewTransferService(
 		db,
@@ -28,6 +29,6 @@ func main() {
 		transactionRepo,
 	)
 
-	menu.MainMenu(authService)
+	menu.MainMenu(authService, walletService)
 
 }

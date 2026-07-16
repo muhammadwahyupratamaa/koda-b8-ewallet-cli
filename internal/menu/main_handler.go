@@ -5,7 +5,10 @@ import (
 	"koda-b8-ewallet-cli/internal/service"
 )
 
-func MainMenu(authService *service.AuthService) {
+func MainMenu(
+	authService *service.AuthService,
+	walletService *service.WalletService,
+) {
 
 	for {
 
@@ -17,7 +20,7 @@ func MainMenu(authService *service.AuthService) {
 		case "1":
 			ShowRegisterMenu(authService)
 		case "2":
-			ShowLoginMenu(authService)
+			ShowLoginMenu(authService, walletService)
 		case "0":
 			fmt.Println("Thank you...")
 			return
