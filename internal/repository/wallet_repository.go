@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
-	"koda-b8-ewallet-cli/model"
+	"koda-b8-ewallet-cli/internal/model"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -54,7 +54,7 @@ func (r *WalletRepository) GetWalletByWalletNumber(walletNumber string) (*model.
 	return &wallet , nil
 }
 
-func (r *WalletRepository) UpdateBalance(walletID int64, balance float64) error {
+func (r *WalletRepository) UpdateBalance(walletID int64, balance int) error {
 	result, err := r.db.Exec(
 		context.Background(),
 		`

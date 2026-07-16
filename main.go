@@ -6,18 +6,30 @@ import (
 
 	"koda-b8-ewallet-cli/internal/database"
 	"koda-b8-ewallet-cli/internal/repository"
+	"koda-b8-ewallet-cli/internal/service"
 )
 
 func main() {
 	db := database.Connect()
-defer db.Close()
+	defer db.Close()
 
-walletRepo := repository.NewWalletRepository(db)
+	walletRepo := repository.NewWalletRepository(db)
+	transactionRepo := repository.NewTransactionRepository(db)
 
-err := walletRepo.UpdateBalance(999, 750000)
-if err != nil {
-	log.Fatal(err)
-}
+	transferService := service.NewTransferService(
+		db,
+		walletRepo,
+		transactionRepo,
+	)
 
-fmt.Println("Update balance berhasil!")
+	// err := transferService.Transfer(
+	// 	"WAL000001",
+	// 	"WAL000002",
+	// 	100000,
+	// )
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	fmt.Println("Transfer Success")
 }
