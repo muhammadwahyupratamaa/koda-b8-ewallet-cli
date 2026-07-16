@@ -19,11 +19,17 @@ func ShowLoginMenu(authService *service.AuthService) {
 	fmt.Print("Password : ")
 	password := Input()
 
-	err := authService.Login(username, password)
+	user, err := authService.Login(
+	username,
+	password,
+	)
+
 	if err != nil {
-		fmt.Println("Login Failed:", err)
-		return
+	fmt.Println("Login Failed:", err)
+	return
 	}
 
 	fmt.Println("Login Success")
+
+	Dashboard(user.UserName)
 }

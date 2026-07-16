@@ -12,8 +12,12 @@ func main() {
 	
 	db := database.Connect()
 	defer db.Close(context.Background())
+	sessionRepo := repository.NewSessionRepository(db)
 	userRepo := repository.NewUserRepository(db)
-	authService := service.NewAuthService(userRepo)
+	authService := service.NewAuthService(
+	userRepo,
+	sessionRepo,
+	)
 
 	walletRepo := repository.NewWalletRepository(db)
 	transactionRepo := repository.NewTransactionRepository(db)

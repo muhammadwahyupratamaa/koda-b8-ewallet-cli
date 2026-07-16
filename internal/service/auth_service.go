@@ -59,19 +59,22 @@ func (s *AuthService) Register(
 func (s *AuthService) Login(
 	username string,
 	password string,
-) error {
+) (*model.User, error) {
 
 	user, err := s.userRepo.GetUserByUsername(username)
 	if err != nil {
-		return errors.New("username or password is incorrect")
+		return nil, errors.New("username or password is incorrect")
 	}
 
 	hashedPassword := utils.HashPassword(password)
 
 	if user.Password != hashedPassword {
-	return errors.New("username or password is incorrect")
+	return nil, errors.New("username or password is incorrect")
 	}
-
+	err = s.sessionRepo.DeleteSessionByUserID(user.ID)
+	if err != nil {
+	return nil, err
+	}
 	session := &model.UserSession{
 	UserID:       user.ID,
 	SessionToken: utils.GenerateSessionToken(),
@@ -80,7 +83,7 @@ func (s *AuthService) Login(
 
 	err = s.sessionRepo.CreateSession(session)
 	if err != nil {
-	return err
+	return nil, err
 	}
-	return nil
+	return user, nil
 }
