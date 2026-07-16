@@ -5,18 +5,17 @@ import (
 	"errors"
 
 	"koda-b8-ewallet-cli/internal/repository"
-
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5"
 )
 
 type TransferService struct {
-	db              *pgxpool.Pool
+	db              *pgx.Conn
 	walletRepo      *repository.WalletRepository
 	transactionRepo *repository.TransactionRepository
 }
 
 func NewTransferService(
-	db *pgxpool.Pool,
+	db *pgx.Conn,
 	walletRepo *repository.WalletRepository,
 	transactionRepo *repository.TransactionRepository,
 ) *TransferService {
