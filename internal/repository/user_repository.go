@@ -53,3 +53,42 @@ func (r *UserRepository) CreateUser(user *model.User) error {
 
 	return nil
 }
+
+func (r *UserRepository) GetUserByUsername(username string) (*model.User, error) {
+	var user model.User
+
+	err := r.db.QueryRow(
+		context.Background(),
+		`
+		SELECT
+			id,
+			full_name,
+			user_name,
+			age,
+			address,
+			email,
+			password,
+			created_at,
+			updated_at
+		FROM users
+		WHERE user_name = $1
+		`,
+		username,
+	).Scan(
+		&user.ID,
+		&user.FullName,
+		&user.UserName,
+		&user.Age,
+		&user.Address,
+		&user.Email,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

@@ -1,8 +1,11 @@
 package service
 
 import (
+	"errors"
 	"koda-b8-ewallet-cli/internal/model"
 	"koda-b8-ewallet-cli/internal/repository"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type AuthService struct {
@@ -16,6 +19,7 @@ func NewAuthService(userRepo *repository.UserRepository) *AuthService {
 }
 
 func (s *AuthService) Register(
+
 	fullName string,
 	username string,
 	age int,
@@ -23,8 +27,16 @@ func (s *AuthService) Register(
 	email string,
 	password string,
 ) error {
+	user, err := s.userRepo.GetUserByUsername(username)
 
-	user := &model.User{
+	if err == nil && user != nil {
+	return errors.New("username already exists")
+	}
+
+	if err != nil && err != pgx.ErrNoRows {
+	return err
+	}
+	user = &model.User{
 		FullName: fullName,
 		UserName: username,
 		Age: age,
