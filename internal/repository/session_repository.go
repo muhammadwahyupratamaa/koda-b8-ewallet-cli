@@ -58,3 +58,16 @@ func (r *SessionRepository) DeleteSessionByUserID(userID int64) error {
 
 	return err
 }
+
+func (r *SessionRepository) DeleteSessionByToken(token string) error {
+	_, err := r.db.Exec(
+		context.Background(),
+		`
+		DELETE FROM user_sessions
+		WHERE session_token = $1
+		`,
+		token,
+	)
+
+	return err
+}

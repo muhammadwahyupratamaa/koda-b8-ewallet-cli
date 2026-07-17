@@ -14,21 +14,22 @@ func main() {
 	defer db.Close(context.Background())
 	sessionRepo := repository.NewSessionRepository(db)
 	userRepo := repository.NewUserRepository(db)
+	walletRepo := repository.NewWalletRepository(db)
+	transactionRepo := repository.NewTransactionRepository(db)
 	authService := service.NewAuthService(
 	userRepo,
 	sessionRepo,
+	walletRepo,
 	)
-	walletRepo := repository.NewWalletRepository(db)
-	transactionRepo := repository.NewTransactionRepository(db)
 	walletService := service.NewWalletService(walletRepo)
 
 
-	_ = service.NewTransferService(
+	transferService := service.NewTransferService(
 		db,
 		walletRepo,
 		transactionRepo,
 	)
 
-	menu.MainMenu(authService, walletService)
+	menu.MainMenu(authService, walletService,transferService,)
 
 }

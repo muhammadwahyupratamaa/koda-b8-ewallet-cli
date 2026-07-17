@@ -78,3 +78,29 @@ func (r *WalletRepository) UpdateBalance(walletID int64, balance int) error {
 
 	return nil
 }
+
+func (r *WalletRepository) CreateWallet(userID int64, walletNumber string) error {
+	_, err := r.db.Exec(
+		context.Background(),
+		`
+		INSERT INTO wallets (
+			user_id,
+			wallet_number,
+			balance,
+			status
+		)
+		VALUES (
+			$1,
+			$2,
+			$3,
+			$4
+		)
+		`,
+		userID,
+		walletNumber,
+		0,
+		"ACTIVE",
+	)
+
+	return err
+}

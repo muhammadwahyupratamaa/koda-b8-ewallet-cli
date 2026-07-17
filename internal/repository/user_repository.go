@@ -19,33 +19,34 @@ func NewUserRepository(db *pgx.Conn) *UserRepository {
 }
 
 func (r *UserRepository) CreateUser(user *model.User) error {
-	_, err := r.db.Exec(
-		context.Background(),
-		`
-		INSERT INTO users (
-			full_name,
-			user_name,
-			age,
-			address,
-			email,
-			password
-		)
-		VALUES (
-			$1,
-			$2,
-			$3,
-			$4,
-			$5,
-			$6
-		)
-		`,
-		user.FullName,
-		user.UserName,
-		user.Age,
-		user.Address,
-		user.Email,
-		user.Password,
+	err := r.db.QueryRow(
+	context.Background(),
+	`
+	INSERT INTO users (
+		full_name,
+		user_name,
+		age,
+		address,
+		email,
+		password
 	)
+	VALUES (
+		$1,
+		$2,
+		$3,
+		$4,
+		$5,
+		$6
+	)
+	RETURNING id
+	`,
+	user.FullName,
+	user.UserName,
+	user.Age,
+	user.Address,
+	user.Email,
+	user.Password,
+	).Scan(&user.ID)
 
 	if err != nil {
 		return err
