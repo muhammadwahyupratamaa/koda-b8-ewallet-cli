@@ -10,6 +10,7 @@ func ShowLoginMenu(
 	authService *service.AuthService,
 	walletService *service.WalletService,
 	transferService *service.TransferService,
+	transactionService *service.TransactionService,
 ) {
 
 	fmt.Println()
@@ -35,5 +36,5 @@ func ShowLoginMenu(
 
 	fmt.Println("Login Success")
 
-	Dashboard(user, walletService,transferService)
+	Dashboard(user, walletService,transferService,transactionService)
 }

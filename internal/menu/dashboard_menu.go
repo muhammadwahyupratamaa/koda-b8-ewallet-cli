@@ -28,6 +28,7 @@ func Dashboard(
     user *model.User,
     walletService *service.WalletService,
     transferService *service.TransferService,
+	transactionService  *service.TransactionService,
 ) {
     for {
         ShowDashboard(user)
@@ -47,6 +48,7 @@ func Dashboard(
         case "2":
 			ShowTransferMenu(user,walletService,transferService)
         case "3":
+			ShowTransferHistory(user,transactionService)
         case "4": fmt.Println("Logout berhasil")
             return
 

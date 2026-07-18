@@ -29,7 +29,11 @@ func main() {
 		walletRepo,
 		transactionRepo,
 	)
+	transactionService := service.NewTransactionService(
+	transactionRepo,
+	walletRepo,
+)
 
-	menu.MainMenu(authService, walletService,transferService,)
+	menu.MainMenu(authService, walletService,transferService,transactionService)
 
 }

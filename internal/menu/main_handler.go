@@ -9,6 +9,7 @@ func MainMenu(
 	authService *service.AuthService,
 	walletService *service.WalletService,
 	transferService *service.TransferService,
+	transactionService *service.TransactionService,
 ) {
 
 	for {
@@ -21,7 +22,7 @@ func MainMenu(
 		case "1":
 			ShowRegisterMenu(authService)
 		case "2":
-			ShowLoginMenu(authService, walletService,transferService,)
+			ShowLoginMenu(authService, walletService,transferService,transactionService)
 		case "0":
 			fmt.Println("Thank you...")
 			return
