@@ -93,3 +93,26 @@ func (r *UserRepository) GetUserByUsername(username string) (*model.User, error)
 
 	return &user, nil
 }
+
+func (r *UserRepository) UpdatePassword(
+	userID int,
+	password string,
+) error {
+
+	query := `
+	UPDATE users
+	SET
+		password = $1,
+		updated_at = NOW()
+	WHERE id = $2
+	`
+
+	_, err := r.db.Exec(
+		context.Background(),
+		query,
+		password,
+		userID,
+	)
+
+	return err
+}
