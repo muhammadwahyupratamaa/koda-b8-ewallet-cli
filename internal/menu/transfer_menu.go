@@ -32,6 +32,7 @@ func ShowTransferMenu(
 	wallet, err := walletService.ShowBalance(user.ID)
 	if err != nil {
 	fmt.Println(err)
+	Pause()
 	return
 	}
 	fmt.Println(wallet.WalletNumber)
@@ -48,4 +49,5 @@ func ShowTransferMenu(
 	return
 	}
 	fmt.Println("Transfer Success!")
+	Pause()
 }

@@ -31,6 +31,7 @@ func Dashboard(
 	transactionService  *service.TransactionService,
 ) {
     for {
+		ClearScreen()
         ShowDashboard(user)
         choice := Input()
 
@@ -45,15 +46,20 @@ func Dashboard(
 			fmt.Println("===== WALLET =====")
 			fmt.Println("Wallet Number :", wallet.WalletNumber)
 			fmt.Println("Balance       :", wallet.Balance)
+			Pause()
         case "2":
 			ShowTransferMenu(user,walletService,transferService)
         case "3":
 			ShowTransferHistory(user,transactionService)
         case "4": fmt.Println("Logout berhasil")
+			Pause()
             return
 
         case "0":
             os.Exit(0)
-        }
+		default:
+   			 fmt.Println("Invalid menu. Please choose the available menu.")
+   			 Pause()
+      }
     }
 }

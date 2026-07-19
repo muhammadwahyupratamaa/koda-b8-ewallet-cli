@@ -19,6 +19,7 @@ func ShowTransferHistory(user *model.User, transactionService *service.Transacti
 
 	if len(histories) == 0 {
 		fmt.Println("No transaction history.")
+		Pause()
 		return
 	}
 
@@ -41,4 +42,5 @@ func ShowTransferHistory(user *model.User, transactionService *service.Transacti
 			h.Status,
 		)
 	}
+	Pause()
 }

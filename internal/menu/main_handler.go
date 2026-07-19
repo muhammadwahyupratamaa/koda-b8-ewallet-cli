@@ -14,6 +14,7 @@ func MainMenu(
 ) {
 
 	for {
+		ClearScreen()
 
 		ShowMainMenu()
 
@@ -30,7 +31,8 @@ func MainMenu(
 			fmt.Println("Thank you...")
 			return
 		default:
-			fmt.Println("Invalid Menu")
+   			 fmt.Println("Invalid menu. Please choose the available menu.")
+  			 Pause()
 		}
 	}
 }

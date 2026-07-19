@@ -19,6 +19,7 @@ func ShowForgotPasswordMenu(
 	token, err := passwordResetService.GenerateResetToken(username)
 	if err != nil {
 		fmt.Println(err)
+		Pause()
 		return
 	}
 
@@ -36,6 +37,7 @@ func ShowForgotPasswordMenu(
 
 	if newPassword != confirmPassword {
 		fmt.Println("Password confirmation does not match")
+		Pause()
 		return
 	}
 
@@ -46,8 +48,10 @@ func ShowForgotPasswordMenu(
 
 	if err != nil {
 		fmt.Println(err)
+		Pause()
 		return
 	}
 
 	fmt.Println("Password updated successfully.")
+	Pause()
 }

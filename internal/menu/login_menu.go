@@ -31,10 +31,12 @@ func ShowLoginMenu(
 
 	if err != nil {
 	fmt.Println("Login Failed:", err)
+	Pause()
 	return
 	}
 
 	fmt.Println("Login Success")
+	Pause()
 
 	Dashboard(user, walletService,transferService,transactionService)
 }

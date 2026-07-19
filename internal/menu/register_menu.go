@@ -25,6 +25,7 @@ func ShowRegisterMenu(authService *service.AuthService) {
 	age, err := strconv.Atoi(ageInput)
 	if err != nil {
 	fmt.Println("Age must be a number")
+	Pause()
 	return
 	}
 
@@ -58,8 +59,10 @@ func ShowRegisterMenu(authService *service.AuthService) {
 
 	if err != nil {
 	fmt.Println("Register Failed:", err)
+	Pause()
 	return
 	}
 
 	fmt.Println("Register Success")
+	Pause()
 }
