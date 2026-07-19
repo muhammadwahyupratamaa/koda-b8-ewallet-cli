@@ -23,7 +23,7 @@ func (r *PasswordResetRepository) CreateResetToken(reset *model.PasswordReset) e
 	query := `
 	INSERT INTO password_resets (
 		user_id,
-		reset_token,
+		token,
 		expired_at
 	)
 	VALUES ($1,$2,$3)
@@ -33,7 +33,7 @@ func (r *PasswordResetRepository) CreateResetToken(reset *model.PasswordReset) e
 		context.Background(),
 		query,
 		reset.UserID,
-		reset.ResetToken,
+		reset.Token,
 		reset.ExpiredAt,
 	)
 
@@ -46,11 +46,11 @@ func (r *PasswordResetRepository) GetResetToken(token string) (*model.PasswordRe
 	SELECT
 		id,
 		user_id,
-		reset_token,
+		token,
 		expired_at,
 		created_at
 	FROM password_resets
-	WHERE reset_token = $1
+	WHERE token = $1
 	`
 
 	var reset model.PasswordReset
@@ -62,7 +62,7 @@ func (r *PasswordResetRepository) GetResetToken(token string) (*model.PasswordRe
 	).Scan(
 		&reset.ID,
 		&reset.UserID,
-		&reset.ResetToken,
+		&reset.Token,
 		&reset.ExpiredAt,
 		&reset.CreatedAt,
 	)
@@ -85,6 +85,22 @@ func (r *PasswordResetRepository) DeleteResetToken(id int) error {
 		context.Background(),
 		query,
 		id,
+	)
+
+	return err
+}
+
+func (r *PasswordResetRepository) DeleteByUserID(userID int) error {
+
+	query := `
+	DELETE FROM password_resets
+	WHERE user_id = $1
+	`
+
+	_, err := r.db.Exec(
+		context.Background(),
+		query,
+		userID,
 	)
 
 	return err

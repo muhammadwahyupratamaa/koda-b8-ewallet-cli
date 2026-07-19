@@ -10,6 +10,7 @@ func MainMenu(
 	walletService *service.WalletService,
 	transferService *service.TransferService,
 	transactionService *service.TransactionService,
+	passwordResetService *service.PasswordResetService,
 ) {
 
 	for {
@@ -23,6 +24,8 @@ func MainMenu(
 			ShowRegisterMenu(authService)
 		case "2":
 			ShowLoginMenu(authService, walletService,transferService,transactionService)
+		case "3":
+			ShowForgotPasswordMenu(passwordResetService)
 		case "0":
 			fmt.Println("Thank you...")
 			return

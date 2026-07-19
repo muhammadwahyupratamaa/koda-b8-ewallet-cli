@@ -44,12 +44,13 @@ func (s *AuthService) Register(
 		return errors.New("username already exists")
 	}
 
+	
 	if err != nil && err != pgx.ErrNoRows {
 		return err
 	}
 
 	hashedPassword := utils.HashPassword(password)
-
+	
 	user = &model.User{
 		FullName: fullName,
 		UserName: username,

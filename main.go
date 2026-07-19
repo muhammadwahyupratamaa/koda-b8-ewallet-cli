@@ -16,11 +16,17 @@ func main() {
 	userRepo := repository.NewUserRepository(db)
 	walletRepo := repository.NewWalletRepository(db)
 	transactionRepo := repository.NewTransactionRepository(db)
+	passwordResetRepo := repository.NewPasswordResetRepository(db)
 	authService := service.NewAuthService(
 	userRepo,
 	sessionRepo,
 	walletRepo,
 	)
+
+	passwordResetService := service.NewPasswordResetService(
+	userRepo,
+	passwordResetRepo,
+)
 	walletService := service.NewWalletService(walletRepo)
 
 
@@ -34,6 +40,6 @@ func main() {
 	walletRepo,
 )
 
-	menu.MainMenu(authService, walletService,transferService,transactionService)
+	menu.MainMenu(authService, walletService,transferService,transactionService,passwordResetService)
 
 }

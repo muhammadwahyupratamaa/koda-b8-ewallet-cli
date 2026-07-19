@@ -5,7 +5,7 @@ import "time"
 type PasswordReset struct {
 	ID         int
 	UserID     int
-	ResetToken string
+	Token string
 	ExpiredAt  time.Time
 	CreatedAt  time.Time
 }

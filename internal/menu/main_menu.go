@@ -9,6 +9,7 @@ func ShowMainMenu() {
 	fmt.Println("===================================")
 	fmt.Println("1. Register")
 	fmt.Println("2. Login")
+	fmt.Println("3. Forgot password")
 	fmt.Println("0. Exit")
 	fmt.Println("===================================")
 	fmt.Print("Choose Menu : ")
